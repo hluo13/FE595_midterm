@@ -1,30 +1,69 @@
 from flask import Flask, request, render_template, jsonify, Response
 import re
+import nltk
+import string
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 
 app = Flask(__name__)
 
-def func_1():
-	combine = "New Year is Friday in 2021. "
-	return combine
+def remove_stop_words():
 
-def func_2():
-	combine_2 = "New year is Wednesday in 2020. "
-	return combine_2
+	input_text = request.form['text1']
 
-def func_3():
-	combine_3 = "Our team have five members. "
-	return combine_3
+	stop_words = set(stopwords.words('english'))  
+  
+	word_tokens = word_tokenize(input_text)  
+  
+	filtered_sentence = [w for w in word_tokens if not w in stop_words]
+
+	remove_punctuation = []
+
+	for i in filtered_sentence:
+
+		if i not in string.punctuation:
+
+			remove_punctuation.append(i)
+		else:
+
+			continue
+	result = " ".join(remove_punctuation)
+  	
+	return result
+
+def uppercase_all_words():
+
+	input_text = request.form['text1']
+
+	return 	input_text.upper()
+
+def word_appearance_count():
+
+	input_text = request.form['text1']
+	    
+	counts = dict()
+	
+	words = input_text.split()
+
+	for word in words:
+		if word in counts:
+			counts[word] += 1
+		else:
+			counts[word] = 1
+
+	return str(counts)
 
 
-def func_4():
-	F=[0,1]
-	i = 1
-	while F[i] < 100000:
-		F.append(F[i]+F[i-1])
-		i = i+1
-	del F[-1]
-	F = str(F)
-	return(F)
+def POS_tag():
+
+	input_text = request.form['text1']
+
+	pre_processing = word_tokenize(input_text)
+
+	tagged = nltk.pos_tag(pre_processing)
+
+	return str(tagged)
+		
 
 
 def func_5():
@@ -76,38 +115,38 @@ def home():
 @app.route('/join', methods=['GET','POST'])
 def my_form_post():
 	text1 = request.form['text1']
-	if text1 == '2021':
-		combine = func_1()
+	if text1[0] == '1':
+		combine = remove_stop_words()
 		result = {"output": combine,
-				  "Total words": count_w_numb(),
-				  "Length": count_a_numb()
+				  # "Total words": count_w_numb(),
+				  # "Length": count_a_numb()
 				  }
 		result = {str(key): value for key, value in result.items()}
 		return jsonify(result=result)
 
-	elif text1 == '2020':
-		combine_2 = func_2()
+	elif text1[0] == '2':
+		combine_2 = uppercase_all_words()
 		result = {"output": combine_2,
-				  "Total words": count_w_numb(),
-				  "Length": count_a_numb()
+				  # "Total words": count_w_numb(),
+				  # "Length": count_a_numb()
 				  }
 		result = {str(key): value for key, value in result.items()}
 		return jsonify(result=result)
 
-	elif text1 == 'Members':
-		combine_3 = func_3()
+	elif text1[0] == '3':
+		combine_3 = word_appearance_count()
 		result = {"output": combine_3,
-				  "Total words": count_w_numb(),
-				  "Length": count_a_numb()
+				  # "Total words": count_w_numb(),
+				  # "Length": count_a_numb()
 				  }
 		result = {str(key): value for key, value in result.items()}
 		return jsonify(result=result)
 
-	elif text1 == 'Fibonacci':
-		combine_4 = func_4()
+	elif text1[0] == '4':
+		combine_4 = POS_tag()
 		result = {"output": combine_4,
-				  "Total words": count_w_numb(),
-				  "Length": count_a_numb()
+				  # "Total words": count_w_numb(),
+				  # "Length": count_a_numb()
 				  }
 		result = {str(key): value for key, value in result.items()}
 		return jsonify(result=result)
@@ -170,11 +209,11 @@ def my_form_post():
 		return jsonify(result=result)
 
 	elif text1 == 'ALL':
-		text = func_1() + '\n '+func_2() + '\n ' + func_3() + '\n '+ func_4()+ '\n ' + func_5()+ '\n '+ func_6()+ '\n ' +func_7()+ '\n ' + func_8()
-		result = {"output1": func_1(),
-				  "output2": func_2(),
-				  "output3": func_3(),
-				  "output4": func_4(),
+		text = remove_stop_words() + '\n '+uppercase_all_words() + '\n ' + word_appearance_count() + '\n '+ POS_tag()+ '\n ' + func_5()+ '\n '+ func_6()+ '\n ' +func_7()+ '\n ' + func_8()
+		result = {"output1": remove_stop_words(),
+				  "output2": uppercase_all_words(),
+				  "output3": word_appearance_count(),
+				  "output4": POS_tag(),
 				  "output5": func_5(),
 				  "output6": func_6(),
 				  "output7": func_7(),
