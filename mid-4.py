@@ -92,7 +92,7 @@ def sentiment_analysis():
     for sen in sentences:
         s = sid.polarity_scores(sen)
         score.append(s)
-    return(score)
+    return str(score)
 
 
 def sent_lemma():
@@ -211,5 +211,5 @@ def my_form_post():
 
 
 if __name__ == '__main__':
-    #app.run(host='0.0.0.0', port=7000)
-    app.run()
+    app.run(host='0.0.0.0', port=8000)
+    #app.run()
