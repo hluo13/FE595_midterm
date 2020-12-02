@@ -32,9 +32,12 @@ To translate the English input into Chinese.
 
 "longest word definition" : long_word_def()
 To give the definition of the longest word in the input.
+
 "sentiment analysis" : sentiment_analysis()
 To return sentiment analysis scores.
+
 "tree" : gram_tree()
 To make a Tree and show the tag of each words.
+
 "all" : call all the above functions.
 If the function name inputed is not in the optional list, "400 Bad request" will be returned.
