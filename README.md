@@ -1,8 +1,10 @@
 # FE595_midterm
 
-The website url: http://3.131.90.103:8000/
-This website is supposed to give NLP result for your input text.
-Use the key words in optional functions to call the functions.
+The website url: http://3.131.90.103:8000/ 
+This website is supposed to give NLP result for your input text. 
+Use the key words in optional functions to call the functions. 
+
+
 key words:
 "stop words" : remove_stop_words()
 To remove all the stopwords.
